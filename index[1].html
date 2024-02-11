@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Power Calculator</title>
+    <!-- Styling for the client UI -->
+    <style>
+        body {
+            background-color: #2C3E50;
+            color: #ECF0F1;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        form {
+            text-align: center;
+        }
+
+        h1 {
+            color: #3498DB;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 5px;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 16px;
+            width: 200px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #3498DB;
+            border: none;
+            color: #ECF0F1;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2980B9;
+        }
+    </style>
+    <script>
+        // The callAPI function remains unchanged
+        var callAPI = (base, exponent) => {
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            var raw = JSON.stringify({ "base": base, "exponent": exponent });
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow'
+            };
+            fetch("https://f1gpk6c3wg.execute-api.us-west-2.amazonaws.com/dev", requestOptions)
+                .then(response => response.text())
+                .then(result => alert(JSON.parse(result).body))
+                .catch(error => console.log('error', error));
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <h1>Power Calculator</h1>
+        <form>
+            <label for="base">Base number:</label>
+            <input type="text" id="base" required>
+            <br>
+            <label for="exponent">Exponent:</label>
+            <input type="text" id="exponent" required>
+            <br>
+            <button type="button" onclick="callAPI(document.getElementById('base').value, document.getElementById('exponent').value)">Calculate</button>
+        </form>
+    </div>
+</body>
+</html>
